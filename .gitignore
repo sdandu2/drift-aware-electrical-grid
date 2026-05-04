@@ -1,0 +1,11 @@
+.env
+__pycache__/
+*.pyc
+data/raw/
+data/interim/
+data/processed/
+data/windows/
+data/prediction_logs/
+data/drift_monitoring/
+data/model_registry/
+outputs/

@@ -1,0 +1,60 @@
+# Default Region
+# We now use PJM RTO as the MVP region because EIA provides balancing-authority-level demand.
+default_region: pjm_rto
+
+
+# Regions
+# Each region contains grid metadata and weather coordinates.
+regions:
+  pjm_rto:
+    display_name: "PJM RTO"
+    grid_region_type: "balancing_authority"
+    balancing_authority_code: "PJM"
+    pjm_zone: "RTO"
+    timezone: "America/New_York"
+    description: "PJM balancing authority demand. This is the main MVP region when using EIA Hourly Electric Grid Monitor data."
+
+    weather_points:
+      primary:
+        city: "Philadelphia"
+        state: "PA"
+        latitude: 39.9526
+        longitude: -75.1652
+        note: "Primary representative weather point for the MVP. Later we can aggregate multiple cities."
+
+      chicago:
+        city: "Chicago"
+        state: "IL"
+        latitude: 41.8781
+        longitude: -87.6298
+
+      washington_dc:
+        city: "Washington"
+        state: "DC"
+        latitude: 38.9072
+        longitude: -77.0369
+
+    model_settings:
+      forecast_horizon_hours: 1
+      target_column: "actual_load_mw"
+      region_id: "pjm_rto"
+
+  comed:
+    display_name: "ComEd"
+    grid_region_type: "pjm_zone"
+    balancing_authority_code: "PJM"
+    pjm_zone: "COMED"
+    timezone: "America/New_York"
+    description: "Commonwealth Edison load zone. Kept as a future PJM Data Miner enhancement if PJM API access becomes available."
+
+    weather_points:
+      primary:
+        city: "Chicago"
+        state: "IL"
+        latitude: 41.8781
+        longitude: -87.6298
+
+    model_settings:
+      forecast_horizon_hours: 1
+      target_column: "actual_load_mw"
+      region_id: "comed"

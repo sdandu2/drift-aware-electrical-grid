@@ -1,0 +1,114 @@
+# Feature Set
+# This file defines the feature groups used by the MVP forecasting and drift system.
+
+active_feature_set: mvp_live_v0_1
+
+
+feature_sets:
+  mvp_live_v0_1:
+    description: "MVP live feature set using EIA load, Open-Meteo weather, and calendar features."
+
+    load_features:
+      - actual_load_mw
+      - load_lag_1h
+      - load_lag_2h
+      - load_lag_24h
+      - load_lag_168h
+      - rolling_mean_3h
+      - rolling_mean_24h
+      - rolling_std_24h
+      - load_ramp_1h
+      - load_percent_change_1h
+
+    weather_features:
+      - weather_temperature_2m
+      - weather_relative_humidity_2m
+      - weather_dew_point_2m
+      - weather_apparent_temperature
+      - weather_precipitation
+      - weather_precipitation_probability
+      - weather_cloud_cover
+      - weather_wind_speed_10m
+      - weather_wind_gusts_10m
+      - weather_surface_pressure
+      - weather_heating_degree_hours
+      - weather_cooling_degree_hours
+      - weather_temperature_delta_1h
+      - weather_humidity_delta_1h
+      - weather_is_precipitation_expected
+      - weather_has_measurable_precipitation
+      - weather_is_high_wind
+      - weather_is_cloudy
+
+    calendar_features:
+      - hour_of_day
+      - day_of_week
+      - month
+      - is_weekend
+      - season
+      - is_holiday
+      - is_business_day
+      - sin_hour
+      - cos_hour
+      - sin_day_of_week
+      - cos_day_of_week
+      - sin_day_of_year
+      - cos_day_of_year
+
+    metadata_features:
+      - region_key
+      - latest_load_timestamp
+      - weather_target_timestamp
+      - forecast_horizon_hours
+
+
+target:
+  name: next_hour_load_mw
+  source_column: actual_load_mw
+  forecast_horizon_hours: 1
+
+
+feature_engineering:
+  degree_hour_base_temperature: 65.0
+  high_wind_threshold_mph: 25.0
+  precipitation_probability_threshold: 50.0
+
+  seasons:
+    winter:
+      - 12
+      - 1
+      - 2
+    spring:
+      - 3
+      - 4
+      - 5
+    summer:
+      - 6
+      - 7
+      - 8
+    fall:
+      - 9
+      - 10
+      - 11
+
+
+data_quality_features:
+  enabled: true
+  checks:
+    - missing_load_flag
+    - missing_weather_flag
+    - negative_load_flag
+    - duplicate_timestamp_flag
+    - stale_load_data_flag
+    - stale_weather_data_flag
+
+
+drift_features:
+  enabled: true
+  checks:
+    - load_distribution_shift_score
+    - temperature_distribution_shift_score
+    - humidity_distribution_shift_score
+    - load_ramp_shift_score
+    - missing_rate_shift
+    - outlier_rate_shift

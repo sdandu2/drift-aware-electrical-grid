@@ -1,0 +1,9 @@
+pyyaml
+requests
+pandas
+python-dotenv
+scikit-learn
+joblib
+numpy
+xgboost
+lightgbm
