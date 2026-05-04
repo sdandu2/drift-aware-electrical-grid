@@ -8,4 +8,3 @@ data/windows/
 data/prediction_logs/
 data/drift_monitoring/
 data/model_registry/
-outputs/
